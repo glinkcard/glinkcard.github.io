@@ -1,0 +1,107 @@
+<!-- ============================================================
+     G+Link Card — Onboarding Button Snippet
+     Paste this wherever you want the "Get Started" button
+     to appear on glinkcard.com
+     ============================================================ -->
+
+<!-- BUTTON -->
+<a href="glinkcard-onboarding.html" class="glink-btn">
+  <span class="glink-btn__plus">+</span>
+  Get Your Card
+  <span class="glink-btn__arrow">→</span>
+</a>
+
+<!-- STYLES — paste inside <head> or your main stylesheet -->
+<style>
+  .glink-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #2A7FFF;
+    color: #ffffff;
+    font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px 36px;
+    border-radius: 4px;
+    border: 1px solid #4A9AFF;
+    box-shadow: 0 4px 22px rgba(42,127,255,0.40);
+    transition: box-shadow 0.3s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  /* Shimmer sweep on hover */
+  .glink-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+    transition: left 0.5s;
+  }
+
+  .glink-btn:hover {
+    box-shadow: 0 6px 32px rgba(42,127,255,0.65);
+    transform: translateY(-1px);
+  }
+
+  .glink-btn:hover::before { left: 160%; }
+  .glink-btn:active         { transform: scale(0.97); }
+
+  .glink-btn__plus {
+    font-size: 20px;
+    line-height: 1;
+    color: #ffffff;
+    font-weight: 300;
+  }
+
+  .glink-btn__arrow {
+    font-size: 16px;
+    transition: transform 0.3s;
+  }
+
+  .glink-btn:hover .glink-btn__arrow { transform: translateX(4px); }
+</style>
+
+<!-- ============================================================
+     OPTIONAL: Floating "Get Started" button fixed to the page
+     Remove this block if you don't want a floating button.
+     ============================================================ -->
+<style>
+  .glink-btn--float {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 9999;
+    box-shadow: 0 8px 32px rgba(42,127,255,0.5);
+  }
+</style>
+
+<a href="glinkcard-onboarding.html" class="glink-btn glink-btn--float">
+  <span class="glink-btn__plus">+</span>
+  Get Your Card
+  <span class="glink-btn__arrow">→</span>
+</a>
+
+<!-- ============================================================
+     USAGE NOTES:
+     
+     1. Upload glinkcard-onboarding.html to the same folder
+        as your glinkcard.com index page.
+
+     2. The first <a> block is an inline button — place it
+        anywhere in your page body (hero section, nav, etc.)
+
+     3. The second <a> block (glink-btn--float) is a floating
+        button fixed to the bottom-right corner of every page.
+        Keep one or both — delete whichever you don't need.
+
+     4. If Barlow Condensed isn't already loaded on your site,
+        add this to your <head>:
+        <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&display=swap" rel="stylesheet">
+     ============================================================ -->
