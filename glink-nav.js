@@ -302,9 +302,10 @@
         <span class="gl-nav-icon">💳</span>
         My G-Link Card
       </a>
-      <a class="gl-nav-item" href="/glink-points-dashboard.html#perks">
+      <a class="gl-nav-item" href="/glink-perks.html">
         <span class="gl-nav-icon">🎁</span>
         Partner Perks
+        <span class="gl-nav-badge gold">NEW</span>
       </a>
 
       <div class="gl-nav-divider"></div>
