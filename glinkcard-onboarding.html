@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>G+Link Card — Welcome</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:        #0B1623;
+    --navy-mid:    #0F1F33;
+    --navy-panel:  #152338;
+    --steel-light: #243650;
+    --blue:        #2A7FFF;
+    --blue-bright: #4A9AFF;
+    --silver:      #C8D4E0;
+    --silver-dim:  #7A90A8;
+    --white:       #FFFFFF;
+    --border:      rgba(42,127,255,0.18);
+    --border-dim:  rgba(200,212,224,0.1);
+  }
+
+  html { height: 100%; }
+
+  body {
+    min-height: 100%;
+    background: var(--navy);
+    color: var(--silver);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 15% 0%, rgba(42,127,255,0.12) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 50% at 90% 100%, rgba(42,127,255,0.07) 0%, transparent 60%),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-mid) 100%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ══════════════════════════════════════
+     DESKTOP LAYOUT (sidebar + main)
+  ══════════════════════════════════════ */
+  .shell {
+    display: flex;
+    min-height: 100vh;
+    position: relative; z-index: 1;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 270px;
+    flex-shrink: 0;
+    background: rgba(15,31,51,0.9);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 40px 28px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    backdrop-filter: blur(12px);
+  }
+
+  .sidebar::after {
+    content: '';
+    position: absolute; top: 0; right: -1px;
+    width: 1px; height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--blue) 30%, var(--blue) 70%, transparent);
+    opacity: 0.5;
+  }
+
+  .logo-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--steel-light), var(--navy-mid));
+    border: 1px solid rgba(42,127,255,0.4);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 15px;
+    color: var(--blue-bright);
+    box-shadow: 0 0 14px rgba(42,127,255,0.3);
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 19px;
+    letter-spacing: 0.08em; color: var(--white); text-transform: uppercase;
+  }
+  .logo-text span { color: var(--blue-bright); }
+
+  .logo-sub {
+    font-size: 9px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--silver-dim);
+    margin-bottom: 44px; padding-left: 46px;
+  }
+
+  .steps-nav { flex: 1; display: flex; flex-direction: column; }
+
+  .step-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 16px 0; position: relative; transition: all 0.4s;
+  }
+
+  .step-item:not(:last-child)::after {
+    content: ''; position: absolute;
+    left: 14px; top: 42px;
+    width: 1px; height: calc(100% - 22px);
+    background: var(--border-dim);
+  }
+  .step-item.completed::after { background: rgba(42,127,255,0.35); }
+
+  .step-dot {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 1px solid var(--border-dim);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 600; color: var(--silver-dim);
+    transition: all 0.4s; position: relative; z-index: 1;
+    background: var(--navy-mid);
+  }
+  .step-item.active    .step-dot { border-color: var(--blue); color: var(--blue-bright); background: rgba(42,127,255,0.1); box-shadow: 0 0 16px rgba(42,127,255,0.35); }
+  .step-item.completed .step-dot { border-color: var(--blue); background: var(--blue); color: var(--white); box-shadow: 0 0 12px rgba(42,127,255,0.4); }
+
+  .step-dot .check { display: none; }
+  .step-item.completed .step-dot .check { display: block; }
+  .step-item.completed .step-dot .num   { display: none; }
+
+  .step-info { padding-top: 3px; }
+  .step-label { font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--silver-dim); margin-bottom: 2px; transition: color 0.4s; }
+  .step-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--silver-dim); transition: color 0.4s; }
+
+  .step-item.active    .step-label { color: var(--blue-bright); }
+  .step-item.active    .step-title { color: var(--white); }
+  .step-item.completed .step-title { color: var(--silver); }
+
+  .sidebar-footer { font-size: 9px; letter-spacing: 0.18em; color: var(--silver-dim); text-transform: uppercase; opacity: 0.45; }
+
+  /* ── Main column ── */
+  .main {
+    flex: 1;
+    display: flex; flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .topbar {
+    padding: 28px 48px 0;
+    display: flex; justify-content: flex-end; align-items: center;
+    flex-shrink: 0;
+  }
+
+  .progress-track { display: flex; align-items: center; gap: 6px; }
+  .progress-seg { height: 2px; width: 34px; background: rgba(255,255,255,0.07); border-radius: 2px; transition: background 0.5s; }
+  .progress-seg.done   { background: var(--blue); }
+  .progress-seg.active { background: rgba(42,127,255,0.4); }
+  .progress-label { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--silver-dim); margin-left: 8px; }
+
+  .content {
+    flex: 1;
+    padding: 36px 48px 24px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(42,127,255,0.2) transparent;
+  }
+  .content::-webkit-scrollbar { width: 3px; }
+  .content::-webkit-scrollbar-thumb { background: rgba(42,127,255,0.25); border-radius: 2px; }
+
+  /* ── Panels ── */
+  .panel { display: none; animation: fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) forwards; max-width: 560px; }
+  .panel.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .panel-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--blue-bright); margin-bottom: 12px;
+  }
+  .panel-tag::before { content: ''; width: 16px; height: 1px; background: var(--blue); display: block; }
+
+  .panel-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: clamp(32px, 6vw, 48px);
+    letter-spacing: 0.02em; text-transform: uppercase;
+    color: var(--white); line-height: 1; margin-bottom: 10px;
+  }
+  .panel-title span { color: var(--blue-bright); }
+
+  .panel-desc { font-size: 14px; color: var(--silver-dim); line-height: 1.65; margin-bottom: 28px; max-width: 440px; }
+
+  /* ── Form grid ── */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-grid.single { grid-template-columns: 1fr; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.span2 { grid-column: 1 / -1; }
+
+  label { font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--blue-bright); font-weight: 400; }
+
+  input, select, textarea {
+    background: rgba(21,35,56,0.8);
+    border: 1px solid var(--border-dim);
+    border-radius: 4px;
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px; font-weight: 300;
+    padding: 13px 14px;
+    outline: none;
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    width: 100%; appearance: none;
+    -webkit-appearance: none;
+  }
+  input::placeholder, textarea::placeholder { color: rgba(122,144,168,0.45); }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--blue);
+    background: rgba(42,127,255,0.07);
+    box-shadow: 0 0 0 3px rgba(42,127,255,0.1);
+  }
+  textarea { resize: vertical; min-height: 88px; }
+  select { cursor: pointer; }
+  select option { background: #152338; color: #fff; }
+
+  /* Avatar */
+  .avatar-upload {
+    display: flex; align-items: center; gap: 18px;
+    padding: 16px 18px;
+    border: 1px dashed rgba(42,127,255,0.3); border-radius: 6px;
+    cursor: pointer; transition: all 0.3s; margin-bottom: 16px;
+    background: rgba(42,127,255,0.04);
+  }
+  .avatar-upload:hover { border-color: var(--blue); background: rgba(42,127,255,0.08); }
+  .avatar-circle {
+    width: 60px; height: 60px; border-radius: 50%;
+    border: 1px solid rgba(42,127,255,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; background: rgba(42,127,255,0.08);
+    flex-shrink: 0; overflow: hidden; color: var(--blue-bright);
+  }
+  .avatar-circle img { width: 100%; height: 100%; object-fit: cover; display: none; }
+  .avatar-label { font-size: 13px; color: var(--silver); margin-bottom: 3px; }
+  .avatar-hint  { font-size: 11px; color: var(--silver-dim); }
+
+  /* Social */
+  .social-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .social-icon {
+    width: 34px; height: 34px; border: 1px solid var(--border-dim); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--blue-bright); font-size: 11px; font-weight: 700;
+    flex-shrink: 0; background: rgba(42,127,255,0.07);
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+
+  /* Plan cards */
+  .plan-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 24px; }
+
+  .plan-card {
+    border: 1px solid var(--border-dim); border-radius: 6px;
+    padding: 22px 16px; cursor: pointer; transition: all 0.3s;
+    position: relative; background: rgba(15,31,51,0.7);
+  }
+  .plan-card:hover { border-color: rgba(42,127,255,0.4); transform: translateY(-2px); }
+  .plan-card.selected { border-color: var(--blue); background: rgba(42,127,255,0.1); box-shadow: 0 0 28px rgba(42,127,255,0.2); transform: translateY(-2px); }
+
+  .plan-badge {
+    position: absolute; top: -1px; right: 12px;
+    background: var(--blue); color: var(--white);
+    font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 0 0 4px 4px;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+  }
+  .plan-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--white); margin-bottom: 6px; }
+  .plan-price { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; color: var(--blue-bright); line-height: 1; margin-bottom: 4px; }
+  .plan-price span { font-size: 11px; color: var(--silver-dim); font-weight: 300; font-family: 'Barlow', sans-serif; }
+  .plan-divider { height: 1px; background: var(--border-dim); margin: 14px 0; }
+  .plan-card.selected .plan-divider { background: rgba(42,127,255,0.25); }
+  .plan-feature { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--silver-dim); margin-bottom: 8px; }
+  .plan-feature .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--blue); flex-shrink: 0; box-shadow: 0 0 4px rgba(42,127,255,0.6); }
+  .plan-card.selected .plan-feature { color: var(--silver); }
+  .plan-tier-label { font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--silver-dim); margin-bottom: 6px; }
+  .plan-tagline { font-size: 11px; color: var(--silver-dim); margin-bottom: 14px; font-style: italic; line-height: 1.4; }
+  .plan-card.selected .plan-tagline { color: var(--silver); }
+  .plan-price sup { font-size: 14px; vertical-align: super; color: var(--blue-bright); }
+  .plan-cents { font-size: 14px; font-weight: 400; }
+  .plan-mo { font-size: 11px; color: var(--silver-dim); font-weight: 300; font-family: 'Barlow', sans-serif; }
+  .plan-card strong { color: var(--silver); font-weight: 600; }
+  .plan-card.selected strong { color: var(--white); }
+
+  /* Confirm */
+  .confirm-card {
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 24px 28px; background: rgba(15,31,51,0.7);
+    margin-bottom: 20px; box-shadow: 0 0 24px rgba(42,127,255,0.08);
+  }
+  .confirm-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .confirm-row:last-child { border-bottom: none; }
+  .confirm-key { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--silver-dim); }
+  .confirm-val { font-size: 14px; color: var(--white); text-align: right; font-weight: 400; max-width: 60%; word-break: break-word; }
+
+  /* Bottom bar */
+  .bottom-bar {
+    padding: 16px 48px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(42,127,255,0.08);
+    background: rgba(11,22,35,0.6); flex-shrink: 0;
+  }
+
+  .btn-ghost {
+    background: none; border: 1px solid var(--border-dim); color: var(--silver-dim);
+    font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 0.2em;
+    text-transform: uppercase; font-weight: 600;
+    padding: 12px 24px; border-radius: 4px; cursor: pointer; transition: all 0.3s;
+    min-height: 48px;
+  }
+  .btn-ghost:hover { border-color: var(--blue); color: var(--silver); }
+
+  .btn-primary {
+    background: var(--blue); border: 1px solid var(--blue-bright); color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 0.22em;
+    text-transform: uppercase; font-weight: 700;
+    padding: 14px 36px; border-radius: 4px; cursor: pointer;
+    transition: all 0.3s; position: relative; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(42,127,255,0.35);
+    min-height: 48px;
+  }
+  .btn-primary:hover { box-shadow: 0 4px 28px rgba(42,127,255,0.55); }
+  .btn-primary:active { transform: scale(0.97); }
+
+  /* Errors */
+  .field-error { font-size: 11px; color: #FF6B6B; margin-top: 2px; }
+  input.error, select.error { border-color: rgba(255,107,107,0.5) !important; }
+
+  /* Success */
+  .success-screen {
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: 100vh; text-align: center; padding: 48px 24px;
+  }
+  .success-screen.active { display: flex; }
+
+  .success-ring {
+    width: 90px; height: 90px; border-radius: 50%;
+    border: 1px solid var(--blue);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 32px;
+    box-shadow: 0 0 40px rgba(42,127,255,0.35);
+    animation: ringPulse 2.5s ease infinite;
+  }
+  @keyframes ringPulse {
+    0%,100% { box-shadow: 0 0 30px rgba(42,127,255,0.25); }
+    50%      { box-shadow: 0 0 60px rgba(42,127,255,0.5); }
+  }
+  .success-icon { font-size: 36px; color: var(--blue-bright); }
+  .success-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: clamp(38px,8vw,52px); letter-spacing: 0.04em; text-transform: uppercase; color: var(--white); margin-bottom: 8px; }
+  .success-title span { color: var(--blue-bright); }
+  .success-sub { font-size: 15px; color: var(--silver-dim); max-width: 340px; line-height: 1.7; margin-bottom: 40px; }
+
+  /* ══════════════════════════════════════
+     MOBILE — hide sidebar, stack layout
+  ══════════════════════════════════════ */
+  @media (max-width: 680px) {
+
+    .sidebar { display: none; }
+
+    .shell { flex-direction: column; min-height: 100vh; }
+
+    /* Mobile top header bar */
+    .mobile-header {
+      display: flex !important;
+      align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+      background: rgba(15,31,51,0.95);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(12px);
+    }
+
+    .mobile-logo { display: flex; align-items: center; gap: 9px; }
+    .mobile-logo-icon {
+      width: 32px; height: 32px; border-radius: 5px;
+      background: linear-gradient(135deg, var(--steel-light), var(--navy-mid));
+      border: 1px solid rgba(42,127,255,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px;
+      color: var(--blue-bright);
+    }
+    .mobile-logo-text { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: 0.06em; color: var(--white); text-transform: uppercase; }
+    .mobile-logo-text span { color: var(--blue-bright); }
+
+    /* Step dots row on mobile */
+    .mobile-steps {
+      display: flex !important;
+      align-items: center; gap: 6px;
+    }
+    .mobile-step-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--border-dim); border: 1px solid rgba(42,127,255,0.2);
+      transition: all 0.3s;
+    }
+    .mobile-step-dot.active   { background: var(--blue); box-shadow: 0 0 8px rgba(42,127,255,0.6); width: 22px; border-radius: 4px; }
+    .mobile-step-dot.completed{ background: var(--blue); opacity: 0.6; }
+
+    .main { min-height: calc(100vh - 65px); }
+
+    .topbar { display: none; }
+
+    .content { padding: 24px 20px 16px; overflow-y: visible; }
+
+    .panel-title { font-size: clamp(28px, 8vw, 38px); }
+    .panel-desc  { font-size: 14px; margin-bottom: 22px; }
+
+    /* Stack all form grids to single column on mobile */
+    .form-grid { grid-template-columns: 1fr !important; gap: 14px; }
+    .field.span2 { grid-column: 1; }
+
+    /* Stack plan cards vertically */
+    .plan-grid { grid-template-columns: 1fr !important; gap: 12px; }
+
+    .plan-card { padding: 20px 16px; }
+    .plan-card:hover { transform: none; }
+    .plan-card.selected { transform: none; }
+
+    /* Bigger touch targets for inputs */
+    input, select, textarea { font-size: 16px; padding: 14px 14px; }
+
+    .avatar-upload { flex-direction: column; text-align: center; padding: 20px; }
+    .avatar-circle { width: 72px; height: 72px; }
+
+    .bottom-bar {
+      padding: 14px 20px 28px;
+      position: sticky; bottom: 0;
+      background: rgba(11,22,35,0.97);
+      border-top: 1px solid rgba(42,127,255,0.15);
+    }
+
+    .btn-ghost   { padding: 13px 18px; font-size: 11px; }
+    .btn-primary { padding: 14px 28px; font-size: 12px; }
+
+    .confirm-card { padding: 18px 16px; }
+    .confirm-val  { font-size: 13px; }
+
+    .success-screen { padding: 40px 24px; min-height: calc(100vh - 65px); }
+  }
+
+  /* Hide mobile header on desktop */
+  .mobile-header { display: none; }
+  .mobile-steps  { display: none; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ── Desktop Sidebar ── -->
+  <aside class="sidebar">
+    <div class="logo-wrap">
+      <div class="logo-icon">G+</div>
+      <div class="logo-text">G<span>+</span>Link Card</div>
+    </div>
+    <div class="logo-sub">Digital Business Cards</div>
+    <nav class="steps-nav">
+      <div class="step-item active" id="nav-1">
+        <div class="step-dot"><span class="num">01</span><svg class="check" width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="step-info"><div class="step-label">Step One</div><div class="step-title">Personal Info</div></div>
+      </div>
+      <div class="step-item" id="nav-2">
+        <div class="step-dot"><span class="num">02</span><svg class="check" width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="step-info"><div class="step-label">Step Two</div><div class="step-title">Profile Setup</div></div>
+      </div>
+      <div class="step-item" id="nav-3">
+        <div class="step-dot"><span class="num">03</span><svg class="check" width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="step-info"><div class="step-label">Step Three</div><div class="step-title">Choose Plan</div></div>
+      </div>
+      <div class="step-item" id="nav-4">
+        <div class="step-dot"><span class="num">04</span><svg class="check" width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="step-info"><div class="step-label">Step Four</div><div class="step-title">Confirm</div></div>
+      </div>
+    </nav>
+    <div class="sidebar-footer">© 2025 G+Link Global</div>
+  </aside>
+
+  <!-- ── Mobile Header (hidden on desktop) ── -->
+  <div class="mobile-header" id="mobile-header">
+    <div class="mobile-logo">
+      <div class="mobile-logo-icon">G+</div>
+      <div class="mobile-logo-text">G<span>+</span>Link Card</div>
+    </div>
+    <div class="mobile-steps">
+      <div class="mobile-step-dot active" id="mdot-1"></div>
+      <div class="mobile-step-dot" id="mdot-2"></div>
+      <div class="mobile-step-dot" id="mdot-3"></div>
+      <div class="mobile-step-dot" id="mdot-4"></div>
+    </div>
+  </div>
+
+  <!-- ── Main ── -->
+  <div class="main" id="main-content">
+
+    <div class="topbar">
+      <div class="progress-track">
+        <div class="progress-seg active" id="seg-1"></div>
+        <div class="progress-seg" id="seg-2"></div>
+        <div class="progress-seg" id="seg-3"></div>
+        <div class="progress-seg" id="seg-4"></div>
+        <span class="progress-label" id="prog-label">1 of 4</span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- Panel 1 -->
+      <div class="panel active" id="panel-1">
+        <div class="panel-tag">Welcome to G+Link</div>
+        <h1 class="panel-title">Let's get you <span>connected.</span></h1>
+        <p class="panel-desc">Tell us who you are. This information will appear on your digital business card and can be updated at any time.</p>
+        <div class="form-grid">
+          <div class="field"><label for="first-name">First Name</label><input type="text" id="first-name" placeholder="Garland" autocomplete="given-name"/></div>
+          <div class="field"><label for="last-name">Last Name</label><input type="text" id="last-name" placeholder="Miller" autocomplete="family-name"/></div>
+          <div class="field"><label for="email">Email Address</label><input type="email" id="email" placeholder="garland@glinkcard.com" autocomplete="email" inputmode="email"/></div>
+          <div class="field"><label for="phone">Phone Number</label><input type="tel" id="phone" placeholder="+1 (555) 000-0000" autocomplete="tel" inputmode="tel"/></div>
+          <div class="field span2"><label for="company">Company / Organization</label><input type="text" id="company" placeholder="G+Link Global" autocomplete="organization"/></div>
+          <div class="field"><label for="jobtitle">Job Title</label><input type="text" id="jobtitle" placeholder="Founder & CEO" autocomplete="organization-title"/></div>
+          <div class="field"><label for="country">Country</label>
+            <select id="country">
+              <option value="" disabled selected>Select country</option>
+              <option>United States</option><option>United Kingdom</option><option>Canada</option>
+              <option>Australia</option><option>Germany</option><option>France</option>
+              <option>Singapore</option><option>United Arab Emirates</option><option>Japan</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2 -->
+      <div class="panel" id="panel-2">
+        <div class="panel-tag">Profile Setup</div>
+        <h1 class="panel-title">Build your <span>brand.</span></h1>
+        <p class="panel-desc">Craft how the world sees you. Your G+Link Card is a living expression of your professional identity.</p>
+        <div class="avatar-upload" onclick="document.getElementById('avatar-input').click()">
+          <input type="file" id="avatar-input" accept="image/*" style="display:none" onchange="previewAvatar(this)">
+          <div class="avatar-circle" id="avatar-circle">
+            <img id="avatar-img" src="" alt="">
+            <span id="avatar-placeholder">◈</span>
+          </div>
+          <div><div class="avatar-label">Upload your professional photo</div><div class="avatar-hint">Square, min 400×400px — PNG or JPG</div></div>
+        </div>
+        <div class="form-grid single">
+          <div class="field"><label for="bio">Professional Bio</label><textarea id="bio" placeholder="Elite professional with expertise in..."></textarea></div>
+          <div class="field"><label for="website">Personal Website</label><input type="url" id="website" placeholder="https://yoursite.com" inputmode="url"/></div>
+          <div class="field"><label for="industry">Industry</label>
+            <select id="industry">
+              <option value="" disabled selected>Select your industry</option>
+              <option>Finance & Investment</option><option>Legal & Consulting</option>
+              <option>Technology</option><option>Real Estate</option><option>Healthcare</option>
+              <option>Creative & Media</option><option>Sports & Entertainment</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-top:8px">
+          <label style="display:block;margin-bottom:12px">Social Links</label>
+          <div class="social-row"><div class="social-icon">IN</div><input type="url" placeholder="linkedin.com/in/yourname" inputmode="url"/></div>
+          <div class="social-row"><div class="social-icon">𝕏</div><input type="url" placeholder="x.com/yourhandle" inputmode="url"/></div>
+          <div class="social-row"><div class="social-icon">IG</div><input type="url" placeholder="instagram.com/yourhandle" inputmode="url"/></div>
+        </div>
+      </div>
+
+      <!-- Panel 3 -->
+      <div class="panel" id="panel-3">
+        <div class="panel-tag">Select Your Access Tier</div>
+        <h1 class="panel-title">Choose your <span>tier.</span></h1>
+        <p class="panel-desc">Every tier includes a cinematic digital business card. Elevate for monthly refreshes, intelligence reports, and white-glove support.</p>
+        <div class="plan-grid">
+
+          <!-- TIER I: Connect -->
+          <div class="plan-card" id="plan-connect" onclick="selectPlan('connect',this)">
+            <div class="plan-tier-label">Tier I</div>
+            <div class="plan-name">Connect</div>
+            <div class="plan-tagline">Simple. Refined. Immediate.</div>
+            <div class="plan-price"><sup>$</sup>9<span class="plan-cents">.99</span><span class="plan-mo"> / mo</span></div>
+            <div class="plan-divider"></div>
+            <div class="plan-feature"><span class="dot"></span>Vertical 1080x1920 digital card</div>
+            <div class="plan-feature"><span class="dot"></span>Cinematic 6-second brand video</div>
+            <div class="plan-feature"><span class="dot"></span>Bespoke background score</div>
+            <div class="plan-feature"><span class="dot"></span>QR code access - zero friction</div>
+            <div class="plan-feature"><span class="dot"></span>Scrolling brand signature link</div>
+            <div class="plan-feature"><span class="dot"></span>Standard concierge support</div>
+          </div>
+
+          <!-- TIER III: Elevate (featured centre) -->
+          <div class="plan-card selected" id="plan-elevate" onclick="selectPlan('elevate',this)">
+            <div class="plan-badge">Signature Tier &middot; Most Exclusive</div>
+            <div class="plan-tier-label">Tier III</div>
+            <div class="plan-name">Elevate</div>
+            <div class="plan-tagline" style="font-style:italic">For those who define the standard.</div>
+            <div class="plan-price"><sup>$</sup>29<span class="plan-cents">.99</span><span class="plan-mo"> / mo</span></div>
+            <div class="plan-divider"></div>
+            <div class="plan-feature"><span class="dot"></span>Everything in Connect &amp; Evolve</div>
+            <div class="plan-feature"><span class="dot"></span><strong>Custom name intro</strong> animation</div>
+            <div class="plan-feature"><span class="dot"></span><strong>Monthly</strong> cinematic video &amp; score refresh</div>
+            <div class="plan-feature"><span class="dot"></span>Swap content for new listings &amp; deals anytime</div>
+            <div class="plan-feature"><span class="dot"></span><strong>Monthly intelligence report</strong> - who scanned, when &amp; where</div>
+            <div class="plan-feature"><span class="dot"></span>24/7 white-glove support</div>
+          </div>
+
+          <!-- TIER II: Evolve -->
+          <div class="plan-card" id="plan-evolve" onclick="selectPlan('evolve',this)">
+            <div class="plan-tier-label">Tier II</div>
+            <div class="plan-name">Evolve</div>
+            <div class="plan-tagline">Refresh as your portfolio grows.</div>
+            <div class="plan-price"><sup>$</sup>19<span class="plan-cents">.99</span><span class="plan-mo"> / mo</span></div>
+            <div class="plan-divider"></div>
+            <div class="plan-feature"><span class="dot"></span>Everything in Connect</div>
+            <div class="plan-feature"><span class="dot"></span>Quarterly video &amp; score refresh</div>
+            <div class="plan-feature"><span class="dot"></span>Ideal for seasonal campaigns</div>
+            <div class="plan-feature"><span class="dot"></span>Refreshed QR access card included</div>
+            <div class="plan-feature"><span class="dot"></span>Priority concierge support</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Panel 4 -->
+      <div class="panel" id="panel-4">
+        <div class="panel-tag">Review</div>
+        <h1 class="panel-title">Almost <span>live.</span></h1>
+        <p class="panel-desc">Review your details below. Your G+Link Card will be active within minutes of completing setup.</p>
+        <div class="confirm-card">
+          <div class="confirm-row"><span class="confirm-key">Full Name</span><span class="confirm-val" id="c-name">—</span></div>
+          <div class="confirm-row"><span class="confirm-key">Email</span><span class="confirm-val" id="c-email">—</span></div>
+          <div class="confirm-row"><span class="confirm-key">Company</span><span class="confirm-val" id="c-company">—</span></div>
+          <div class="confirm-row"><span class="confirm-key">Title</span><span class="confirm-val" id="c-title">—</span></div>
+          <div class="confirm-row"><span class="confirm-key">Country</span><span class="confirm-val" id="c-country">—</span></div>
+          <div class="confirm-row"><span class="confirm-key">Industry</span><span class="confirm-val" id="c-industry">—</span></div>
+          <div class="confirm-row"><span class="confirm-key">Plan</span><span class="confirm-val" id="c-plan" style="color:var(--blue-bright)">—</span></div>
+        </div>
+        <p style="font-size:12px;color:var(--silver-dim);line-height:1.7;">
+          By creating your account you agree to G+Link Card's
+          <a href="#" style="color:var(--blue-bright);text-decoration:none">Terms of Service</a> and
+          <a href="#" style="color:var(--blue-bright);text-decoration:none">Privacy Policy</a>.
+        </p>
+      </div>
+
+    </div><!-- /content -->
+
+    <div class="bottom-bar">
+      <button class="btn-ghost" id="btn-back" onclick="goBack()" style="visibility:hidden">← Back</button>
+      <button class="btn-primary" id="btn-next" onclick="goNext()">Continue →</button>
+    </div>
+
+    <div class="success-screen" id="success-screen">
+      <div class="success-ring"><div class="success-icon">⬡</div></div>
+      <div class="success-title">You're <span>live.</span></div>
+      <p class="success-sub" id="success-msg">Your G+Link Card is being activated. A confirmation email is on its way with your personal card link.</p>
+      <button class="btn-primary" onclick="window.location.href=PLAN_LINKS[selectedPlan]||PLAN_LINKS.connect">Complete Setup →</button>
+    </div>
+
+  </div><!-- /main -->
+</div>
+
+<script>
+  let currentStep = 1, selectedPlan = 'elevate';
+
+  function selectPlan(plan, el) {
+    selectedPlan = plan;
+    document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function updateNav() {
+    [1,2,3,4].forEach(s => {
+      const nav = document.getElementById('nav-'+s);
+      const seg = document.getElementById('seg-'+s);
+      const mdot = document.getElementById('mdot-'+s);
+      nav.classList.remove('active','completed');
+      seg.classList.remove('active','done');
+      mdot.classList.remove('active','completed');
+      if (s < currentStep)        { nav.classList.add('completed'); seg.classList.add('done');    mdot.classList.add('completed'); }
+      else if (s === currentStep) { nav.classList.add('active');    seg.classList.add('active');  mdot.classList.add('active'); }
+    });
+    document.getElementById('prog-label').textContent = currentStep + ' of 4';
+    document.getElementById('btn-back').style.visibility = currentStep > 1 ? 'visible' : 'hidden';
+    document.getElementById('btn-next').textContent = currentStep === 4 ? 'Activate My Card →' : 'Continue →';
+  }
+
+  function showPanel(n) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    const p = document.getElementById('panel-'+n);
+    p.classList.remove('active'); void p.offsetWidth; p.classList.add('active');
+  }
+
+  const PLAN_NAMES = {
+    connect: 'Connect — $9.99/mo',
+    evolve:  'Evolve — $19.99/mo',
+    elevate: 'Elevate — $29.99/mo (Signature Tier)'
+  };
+
+  const PLAN_LINKS = {
+    connect: 'https://www.paypal.com/ncp/payment/DXD493EMP86WY',
+    evolve:  'https://www.paypal.com/ncp/payment/7UD4VNHA8YJ8J',
+    elevate: 'https://www.paypal.com/ncp/payment/HGRWVUHK7N4LW'
+  };
+
+  function populateConfirm() {
+    const fn = document.getElementById('first-name').value, ln = document.getElementById('last-name').value;
+    document.getElementById('c-name').textContent     = [fn,ln].filter(Boolean).join(' ') || '—';
+    document.getElementById('c-email').textContent    = document.getElementById('email').value    || '—';
+    document.getElementById('c-company').textContent  = document.getElementById('company').value  || '—';
+    document.getElementById('c-title').textContent    = document.getElementById('jobtitle').value || '—';
+    document.getElementById('c-country').textContent  = document.getElementById('country').value  || '—';
+    document.getElementById('c-industry').textContent = document.getElementById('industry').value || '—';
+    const pm = {essential:'Essential — Free', elite:'Elite — $19/mo', concierge:'Concierge — $59/mo'};
+    document.getElementById('c-plan').textContent = pm[selectedPlan] || '—';
+  }
+
+  function validate(step) {
+    let ok = true;
+    document.querySelectorAll('input.error,select.error').forEach(el => el.classList.remove('error'));
+    document.querySelectorAll('.field-error').forEach(el => el.remove());
+    const require = id => {
+      const el = document.getElementById(id);
+      if (!el || !el.value.trim()) {
+        if (el) { el.classList.add('error'); const e = document.createElement('span'); e.className='field-error'; e.textContent='Required'; el.parentNode.appendChild(e); }
+        ok = false;
+      }
+    };
+    if (step === 1) { require('first-name'); require('last-name'); require('email'); require('company'); }
+    return ok;
+  }
+
+  function goNext() {
+    if (!validate(currentStep)) return;
+    if (currentStep === 4) {
+      const name = document.getElementById('first-name').value;
+      document.getElementById('success-msg').textContent = `Welcome, ${name}. Your G+Link Card is being activated. Redirecting you to complete your setup now.`;
+      const main = document.querySelector('.main');
+      main.querySelector('.content').style.display = 'none';
+      main.querySelector('.bottom-bar').style.display = 'none';
+      const topbar = main.querySelector('.topbar'); if(topbar) topbar.style.display = 'none';
+      const mh = document.getElementById('mobile-header'); if(mh) mh.style.display = 'none';
+      document.getElementById('success-screen').classList.add('active');
+      // Redirect to payment after brief success moment
+      const dest = PLAN_LINKS[selectedPlan] || PLAN_LINKS.connect;
+      setTimeout(() => { window.location.href = dest; }, 2800);
+      return;
+    }
+    if (currentStep === 3) populateConfirm();
+    currentStep++; showPanel(currentStep); updateNav();
+    window.scrollTo(0,0);
+    document.querySelector('.content').scrollTop = 0;
+  }
+
+  function goBack() {
+    if (currentStep <= 1) return;
+    currentStep--; showPanel(currentStep); updateNav();
+    window.scrollTo(0,0);
+    document.querySelector('.content').scrollTop = 0;
+  }
+
+  function previewAvatar(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = document.getElementById('avatar-img');
+        img.src = e.target.result; img.style.display = 'block';
+        document.getElementById('avatar-placeholder').style.display = 'none';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  updateNav();
+</script>
+</body>
+</html>
